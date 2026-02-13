@@ -1,15 +1,28 @@
 # pdf-md
 
-Batch-convert PDFs to Markdown while preserving tables, headers, and images.
+Batch-convert PDFs and office documents to Markdown while preserving tables, headers, and images.
 
 ## Features
 
 - **Recursive scanning** — walks all directories and subdirectories of a source folder.
-- **Structure mirroring** — outputs are written to a `PDF_Extracts/` folder that mirrors the original directory layout.
-- **Table & header preservation** — uses [pymupdf4llm](https://pypi.org/project/pymupdf4llm/) for high-fidelity conversion.
-- **Image extraction** — embedded images are saved to per-document `<name>_images/` folders and referenced in the Markdown.
-- **Wikilink header** — each Markdown file starts with `[[OriginalFile.pdf]]` for easy back-referencing (e.g. in Obsidian).
-- **Fallback** — if pymupdf4llm fails for a file, plain text is extracted via PyMuPDF.
+- **Structure mirroring** — outputs are written to an `Extracts/` folder that mirrors the original directory layout.
+- **Multi-format support** — converts PDFs, Word documents, Excel spreadsheets, and PowerPoint presentations.
+- **Table & header preservation** — uses [pymupdf4llm](https://pypi.org/project/pymupdf4llm/) for high-fidelity PDF conversion and [markitdown](https://pypi.org/project/markitdown/) for office documents.
+- **Image extraction** — embedded images from PDFs are saved to per-document `<name>_images/` folders and referenced in the Markdown.
+- **Wikilink header** — each Markdown file starts with `[[OriginalFile.ext]]` for easy back-referencing (e.g. in Obsidian).
+- **Fallback** — if pymupdf4llm fails for a PDF, plain text is extracted via PyMuPDF.
+
+## Supported Formats
+
+| Extension | Type        | Converter   |
+| --------- | ----------- | ----------- |
+| `.pdf`    | PDF         | pymupdf4llm / PyMuPDF |
+| `.docx`   | Word        | markitdown  |
+| `.doc`    | Word (legacy) | markitdown |
+| `.xlsx`   | Excel       | markitdown  |
+| `.xls`    | Excel (legacy) | markitdown |
+| `.pptx`   | PowerPoint  | markitdown  |
+| `.ppt`    | PowerPoint (legacy) | markitdown |
 
 ## Installation
 
@@ -26,11 +39,12 @@ uv sync
 
 ### Dependencies
 
-| Package          | Purpose                                  |
-| ---------------- | ---------------------------------------- |
-| `pymupdf4llm`   | Primary PDF → Markdown converter         |
-| `pymupdf`       | PDF engine (installed with pymupdf4llm)  |
-| `pymupdf_layout` | Optional, improves page-layout analysis |
+| Package           | Purpose                                  |
+| ----------------- | ---------------------------------------- |
+| `pymupdf4llm`    | Primary PDF → Markdown converter         |
+| `pymupdf`        | PDF engine (installed with pymupdf4llm)  |
+| `pymupdf_layout`  | Optional, improves page-layout analysis |
+| `markitdown`      | Office document → Markdown converter    |
 
 ## Usage
 
@@ -38,7 +52,7 @@ uv sync
 python main.py [source_dir]
 ```
 
-- **`source_dir`** — root directory to scan for PDFs. Defaults to the current directory if omitted.
+- **`source_dir`** — root directory to scan for supported files. Defaults to the current directory if omitted.
 
 ### Example
 
@@ -50,17 +64,19 @@ This produces:
 
 ```
 Reports/
-  PDF_Extracts/
+  Extracts/
     subdir/
       Report.md
       Report_images/
         img-0001.png
+      Meeting_Notes.md
     AnnualReview.md
     AnnualReview_images/
         img-0001.png
+    Budget.md
 ```
 
-Each generated `.md` file starts with a Wikilink to the original PDF:
+Each generated `.md` file starts with a Wikilink to the original document:
 
 ```markdown
 [[Report.pdf]]
@@ -68,3 +84,11 @@ Each generated `.md` file starts with a Wikilink to the original PDF:
 # Report Title
 ...
 ```
+
+## Project Structure
+
+| File                  | Purpose                                      |
+| --------------------- | -------------------------------------------- |
+| `main.py`             | Orchestrator — walks directory, dispatches files |
+| `pdf_converter.py`    | PDF → Markdown (pymupdf4llm / PyMuPDF)      |
+| `office_converter.py` | Office → Markdown (markitdown)               |
