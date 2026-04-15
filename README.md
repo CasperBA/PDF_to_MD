@@ -14,15 +14,15 @@ Batch-convert PDFs and office documents to Markdown while preserving tables, hea
 
 ## Supported Formats
 
-| Extension | Type        | Converter   |
-| --------- | ----------- | ----------- |
-| `.pdf`    | PDF         | pymupdf4llm / PyMuPDF |
-| `.docx`   | Word        | markitdown  |
-| `.doc`    | Word (legacy) | markitdown |
-| `.xlsx`   | Excel       | markitdown  |
-| `.xls`    | Excel (legacy) | markitdown |
-| `.pptx`   | PowerPoint  | markitdown  |
-| `.ppt`    | PowerPoint (legacy) | markitdown |
+| Extension | Type                | Converter             |
+| -----------| ---------------------| -----------------------|
+| `.pdf`    | PDF                 | pymupdf4llm / PyMuPDF |
+| `.docx`   | Word                | markitdown            |
+| `.doc`    | Word (legacy)       | markitdown            |
+| `.xlsx`   | Excel               | markitdown            |
+| `.xls`    | Excel (legacy)      | markitdown            |
+| `.pptx`   | PowerPoint          | markitdown            |
+| `.ppt`    | PowerPoint (legacy) | markitdown            |
 
 ## Installation
 
@@ -39,12 +39,12 @@ uv sync
 
 ### Dependencies
 
-| Package           | Purpose                                  |
-| ----------------- | ---------------------------------------- |
-| `pymupdf4llm`    | Primary PDF → Markdown converter         |
-| `pymupdf`        | PDF engine (installed with pymupdf4llm)  |
-| `pymupdf_layout`  | Optional, improves page-layout analysis |
-| `markitdown`      | Office document → Markdown converter    |
+| Package          | Purpose                                 |
+| ------------------| -----------------------------------------|
+| `pymupdf4llm`    | Primary PDF → Markdown converter        |
+| `pymupdf`        | PDF engine (installed with pymupdf4llm) |
+| `pymupdf_layout` | Optional, improves page-layout analysis |
+| `markitdown`     | Office document → Markdown converter    |
 
 ## Usage
 
