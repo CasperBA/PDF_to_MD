@@ -92,6 +92,7 @@ def convert_tree(source_root: Path) -> dict[str, int]:
                     LOGGER.error("Failed to convert office file %s: %s", file_path, exc)
 
             else:
+                LOGGER.info("Skipped %s (unsupported extension: %s)", file_path, ext)
                 counts["skipped"] += 1
 
     return counts
